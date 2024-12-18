@@ -1,6 +1,8 @@
 import { barlow } from '@/app/ui/fonts';
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
+import { Navbar } from '@/components/ui/organisms/navbar';
+import './ui/globalicons.css'; 
 
 export const metadata = {
   title: "Social Media Analytics",
@@ -12,7 +14,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${barlow.className} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <Provider>
+          <Navbar />
+          {children}
+        </Provider>
       </body>
     </html>
   );
