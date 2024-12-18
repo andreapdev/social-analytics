@@ -2,7 +2,7 @@ import * as React from 'react'
 
 export const Navbar = function Navbar() {
   return (
-    <nav className='sticky top-0 w-full flex justify-evenly items-center p-2.5 bg-black bg-opacity-75'>
+    <nav className='sticky top-0 w-full flex justify-evenly items-center p-2.5 bg-black bg-opacity-75 z-10'>
       <NavbarItem url="/" text="Home" icon="home"/>
       <NavbarItem url="/dashboard" text="Dashboard" icon="bar_chart"/>
       <NavbarItem url="/tables" text="Tables" icon="table_chart"/>

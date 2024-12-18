@@ -1,3 +1,9 @@
+import PopulatedTable from "@/components/tables/populated-table";
+
 export default function Page() {
-  return <p>Tables Page</p>;
+  return <>
+    <div className="p-2.5">
+      <PopulatedTable />
+    </div>
+    </>
 }
