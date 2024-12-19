@@ -2,20 +2,22 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Run using:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Styles
 
-I have used TailwindCSS and Chakra UI to quickly build the components in this app.
+[TailwindCSS](https://tailwindcss.com/) and [Chakra UI](https://www.chakra-ui.com/) were used to quickly build the components in this app.
+
+## Charts
+
+Charts are shown using [ChartJS](https://www.chartjs.org/docs/latest/)
+
+## Data
+
+[MockAPI](https://mockapi.io/projects) is used to get the data used in the charts and tables
