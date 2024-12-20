@@ -8,15 +8,9 @@ async function setChartData( channelId ) {
   const posts = await fetchSocialMediaPosts();
   const postDetails = getPostDetailsForChannel(channelId);
 
-  function getChannelName (channelId) {
-    return posts
-      .filter(post => post.channelId === channelId)
-      .map(post => ({
-        name: post.channelName
-      }));
-  }
-
   //TODO: order by date
+  //TODO: make mixed if unfiltered - one channel if filtered
+
   function getPostDetailsForChannel(channelId) {
     return posts
       .filter(post => post.channelId === channelId) // Filter by channelId

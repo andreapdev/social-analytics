@@ -3,6 +3,7 @@ import { fetchSocialMediaChannels } from "@/app/infrastructure/interactions-repo
 import { formatDateTime } from "@/utils/format-date";
 import Card from "@/components/atomic/atoms/card";
 
+//TODO: make mixed if unfiltered - one channel if filtered
 async function setChartData( channelId ) {
   const channels = await fetchSocialMediaChannels();
   const followerDetails = getFollowersForChannel(channelId);  

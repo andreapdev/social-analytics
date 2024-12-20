@@ -2,11 +2,14 @@ import DoughnutChart from "@/components/charts/doughnut-chart";
 import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 
-async function setChartData() {
+async function setChartData(filterId) {
   const posts = await fetchSocialMediaPosts();
 
-  // Step 1: Aggregate impressions by channelName and keep channelId
-  const impressionsByChannel = posts.reduce((acc, item) => {
+  // Step 1: Filter posts based on the filterId
+    const filteredPosts = filterId? posts.filter(post => post.channelId == filterId) : posts;
+
+  // Step 2: Aggregate impressions by channelName and keep channelId
+  const impressionsByChannel = filteredPosts.reduce((acc, item) => {
     const { channelId, channelName, impressionNumber } = item;
     if (!acc[channelName]) {
       acc[channelName] = { channelId, totalImpressions: 0 };
@@ -15,7 +18,7 @@ async function setChartData() {
     return acc;
   }, {});
 
-  // Step 2: Convert the object into an array and sort by channelId
+  // Step 3: Convert the object into an array and sort by channelId
   const sortedImpressions = Object.entries(impressionsByChannel)
     .map(([channelName, { channelId, totalImpressions }]) => ({
       channelId,
@@ -24,6 +27,7 @@ async function setChartData() {
     }))
     .sort((a, b) => a.channelId - b.channelId);
 
+  // Step 4: Prepare the chart data
   const data = {
     labels: sortedImpressions.map(post => post.channelName),
     datasets: [{
@@ -36,8 +40,8 @@ async function setChartData() {
   return data;
 }
 
-export default async function ImpressionsByChannel({className}) {
-  const data = await setChartData();
+export default async function ImpressionsByChannel({className, channelId}) {
+  const data = await setChartData(channelId);
 
   return (
     <Card extraClass={className}>
