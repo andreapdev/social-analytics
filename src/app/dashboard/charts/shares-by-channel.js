@@ -1,4 +1,4 @@
-import { fetchSocialMediaPosts } from "@/app/lib/data";
+import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
 import PolarAreaChart from "@/components/charts/polar-area-chart";
 
 async function setChartData() {
@@ -35,8 +35,7 @@ async function setChartData() {
   return data;
 }
 
-export default async function SharesByChannel( props ) {
-  const {className} = props;
+export default async function SharesByChannel({className}) {
   const data = await setChartData();
 
   return (

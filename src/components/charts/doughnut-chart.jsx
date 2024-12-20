@@ -25,8 +25,7 @@ const Doughnut = dynamic(() => import('react-chartjs-2').then((mod) => mod.Dough
 //   }]
 // };
 
- const DoughnutChart = (props) => {
-  const {data} = props
+ const DoughnutChart = ({data}) => {
   return (
       <Doughnut data={data} />
   );

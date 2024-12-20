@@ -6,7 +6,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-} from "@/components/ui/pagination"
+} from "@/components/chakra-ui/pagination"
 import { useState } from "react"
 
 const pageSize = 5

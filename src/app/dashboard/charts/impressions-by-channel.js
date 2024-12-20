@@ -1,5 +1,5 @@
 import DoughnutChart from "@/components/charts/doughnut-chart";
-import { fetchSocialMediaPosts } from "@/app/lib/data";
+import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
 
 async function setChartData() {
   const posts = await fetchSocialMediaPosts();
@@ -35,8 +35,7 @@ async function setChartData() {
   return data;
 }
 
-export default async function ImpressionsByChannel( props ) {
-  const {className} = props;
+export default async function ImpressionsByChannel({className}) {
   const data = await setChartData();
 
   return (

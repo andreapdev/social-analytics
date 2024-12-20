@@ -34,8 +34,7 @@ const Bar = dynamic(() => import('react-chartjs-2').then((mod) => mod.Bar), {
 //   ],
 // };
 
-const BarChart = ( props ) => {
-  const { data } = props;
+const BarChart = ({ data }) => {
   return (
     <Bar data={data} />
   );

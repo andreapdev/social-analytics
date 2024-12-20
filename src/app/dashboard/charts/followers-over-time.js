@@ -1,5 +1,5 @@
 import BarChart from "@/components/charts/bar-chart";
-import { fetchSocialMediaChannels } from "@/app/lib/data";
+import { fetchSocialMediaChannels } from "@/app/infrastructure/interactions-repository";
 
 async function setChartData( channelId ) {
   const channels = await fetchSocialMediaChannels();
@@ -57,10 +57,9 @@ async function getChannelName( channelId ) {
   return channel ? channel.channelName : "Channel not found";
 }
 
-export default async function FollowersOverTime( props ) {
-  const {channelId, className} = props;
-  const data = await setChartData(props.channelId);
-  const channelName = await getChannelName(props.channelId);
+export default async function FollowersOverTime({channelId, className}) {
+  const data = await setChartData(channelId);
+  const channelName = await getChannelName(channelId);
 
   return (
     <div className={className}>

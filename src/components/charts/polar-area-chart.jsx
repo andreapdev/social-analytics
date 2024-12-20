@@ -28,9 +28,7 @@ const PolarArea = dynamic(() => import('react-chartjs-2').then((mod) => mod.Pola
 //   }]
 // };
 
-const PolarAreaChart = ( props ) => {
-  const {data} = props;
-  
+const PolarAreaChart = ({data}) => {  
   return (
       <PolarArea data={data} />
   );

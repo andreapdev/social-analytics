@@ -16,9 +16,7 @@ const Line = dynamic(() => import('react-chartjs-2').then((mod) => mod.Line), {
 //     },
 //   ],
 // };
-const LineChart = (props) => {
-  const {data} = props
-
+const LineChart = ({data}) => {
   return (
     <Line data={data} />
   );

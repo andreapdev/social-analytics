@@ -1,5 +1,5 @@
 import LineChart from "@/components/charts/line-chart";
-import { fetchSocialMediaPosts } from "@/app/lib/data";
+import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
 
 async function setChartData( channelId ) {
   const posts = await fetchSocialMediaPosts();
@@ -13,7 +13,6 @@ async function setChartData( channelId ) {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit',
       hour12: false
     });
   }
@@ -26,6 +25,7 @@ async function setChartData( channelId ) {
       }));
   }
 
+  //TODO: order by date
   function getPostDetailsForChannel(channelId) {
     return posts
       .filter(post => post.channelId === channelId) // Filter by channelId
@@ -58,10 +58,9 @@ async function getChannelName( channelId ) {
   return post ? post.channelName : "Channel not found";
 }
 
-export default async function LikesByPost( props ) {
-  const {channelId, className} = props;
-  const data = await setChartData(props.channelId);
-  const channelName = await getChannelName(props.channelId);
+export default async function LikesByPost({channelId, className}) {
+  const data = await setChartData(channelId);
+  const channelName = await getChannelName(channelId);
 
   return (
     <div className={className}>
