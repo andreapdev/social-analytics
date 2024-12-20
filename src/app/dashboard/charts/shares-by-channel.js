@@ -1,4 +1,5 @@
 import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
+import Card from "@/components/atomic/atoms/card";
 import PolarAreaChart from "@/components/charts/polar-area-chart";
 
 async function setChartData() {
@@ -39,9 +40,9 @@ export default async function SharesByChannel({className}) {
   const data = await setChartData();
 
   return (
-    <div className={className}>
+    <Card extraClass={className}>
       <h3>Shares by channel</h3>
       <PolarAreaChart data={data}/> 
-    </div>
+    </Card>
   );
 }

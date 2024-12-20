@@ -1,31 +1,11 @@
 import BarChart from "@/components/charts/bar-chart";
 import { fetchSocialMediaChannels } from "@/app/infrastructure/interactions-repository";
+import { formatDateTime } from "@/utils/format-date";
+import Card from "@/components/atomic/atoms/card";
 
 async function setChartData( channelId ) {
   const channels = await fetchSocialMediaChannels();
   const followerDetails = getFollowersForChannel(channelId);  
-
-  //TO DO: make function reusable
-  function formatDateTime(isoDate) {
-    const date = new Date(isoDate);
-    return date.toLocaleString('es-ES', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    });
-  }
-
-  function getChannelName (channelId) {
-    return channels
-      .filter(channel => channel.channelId === channelId)
-      .map(channel => ({
-        name: channel.channelName
-      }));
-  }
 
   function getFollowersForChannel(channelId) {
     return channels
@@ -62,9 +42,9 @@ export default async function FollowersOverTime({channelId, className}) {
   const channelName = await getChannelName(channelId);
 
   return (
-    <div className={className}>
+    <Card extraClass={className}>
       <h3>{channelName} follower number</h3>
       <BarChart data={data}/>
-    </div>
+    </Card>
   );
 }

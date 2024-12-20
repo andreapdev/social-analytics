@@ -1,9 +1,11 @@
-import PopulatedTable from "@/components/tables/populated-table";
+import PopulatedChannelsTable from "@/app/tables/populated-tables/channels-table";
+import PopulatedPostsTable from "./populated-tables/posts-table";
 
 export default function Page() {
   return (
       <div className="p-2.5">
-        <PopulatedTable />
+        <PopulatedChannelsTable />
+        <PopulatedPostsTable />
       </div>
   )
 }

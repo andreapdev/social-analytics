@@ -1,5 +1,6 @@
 import DoughnutChart from "@/components/charts/doughnut-chart";
 import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
+import Card from "@/components/atomic/atoms/card";
 
 async function setChartData() {
   const posts = await fetchSocialMediaPosts();
@@ -39,9 +40,9 @@ export default async function ImpressionsByChannel({className}) {
   const data = await setChartData();
 
   return (
-    <div className={className}>
+    <Card extraClass={className}>
       <h3>Impressions by channel</h3>
       <DoughnutChart data={data}/>
-    </div>
+    </Card>
   );
 }

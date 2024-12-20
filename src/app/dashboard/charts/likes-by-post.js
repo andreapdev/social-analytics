@@ -1,21 +1,12 @@
 import LineChart from "@/components/charts/line-chart";
 import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
+import Card from "@/components/atomic/atoms/card";
+import { formatDateTime } from "@/utils/format-date";
+
 
 async function setChartData( channelId ) {
   const posts = await fetchSocialMediaPosts();
   const postDetails = getPostDetailsForChannel(channelId);
-
-  function formatDateTime(isoDate) {
-    const date = new Date(isoDate);
-    return date.toLocaleString('es-ES', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    });
-  }
 
   function getChannelName (channelId) {
     return posts
@@ -63,9 +54,9 @@ export default async function LikesByPost({channelId, className}) {
   const channelName = await getChannelName(channelId);
 
   return (
-    <div className={className}>
+    <Card extraClass={className}>
       <h3>{channelName} likes by post</h3>
       <LineChart data={data}/>
-    </div>
+    </Card>
   );
 }

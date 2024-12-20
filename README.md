@@ -14,6 +14,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 [TailwindCSS](https://tailwindcss.com/) and [Chakra UI](https://www.chakra-ui.com/) were used to quickly build the components in this app.
 
+Background particle animation based on [this one at CSSCrafter](https://csscrafter.com/css-particle-effects/)
+
 ## Charts
 
 Charts are shown using [ChartJS](https://www.chartjs.org/docs/latest/)
