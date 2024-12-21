@@ -2,7 +2,7 @@
 
 import { HStack, Heading, Stack, Table } from "@chakra-ui/react"
 import {
-  PaginationItems,
+  PaginationPageText,
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
@@ -26,6 +26,7 @@ export default function BasePostTable({count, items}) {
     <Stack gap="4">
       <Stack>
       <Heading size="xl">Posts overview</Heading>
+      <Table.ScrollArea borderWidth="1px" className="w-screen">
        <Table.Root size="sm" variant="outline" striped>
          <Table.Header>
            <Table.Row>
@@ -58,6 +59,7 @@ export default function BasePostTable({count, items}) {
            ))}
          </Table.Body>
        </Table.Root>
+       </Table.ScrollArea>
       </Stack>
 
       <PaginationRoot
@@ -68,7 +70,7 @@ export default function BasePostTable({count, items}) {
       >
         <HStack>
           <PaginationPrevTrigger />
-          <PaginationItems />
+          <PaginationPageText />
           <PaginationNextTrigger />
         </HStack>
       </PaginationRoot>

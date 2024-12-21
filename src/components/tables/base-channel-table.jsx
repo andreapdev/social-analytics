@@ -2,7 +2,7 @@
 
 import { HStack, Heading, Stack, Table } from "@chakra-ui/react"
 import {
-  PaginationItems,
+  PaginationPageText,
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
@@ -26,6 +26,7 @@ export default function BaseChannelTable({count, items}) {
     <Stack gap="4">
       <Stack>
       <Heading size="xl">Follower overview</Heading>
+      <Table.ScrollArea borderWidth="1px" maxW="xl">
        <Table.Root size="sm" variant="outline" striped>
          <Table.Header>
            <Table.Row>
@@ -46,6 +47,7 @@ export default function BaseChannelTable({count, items}) {
            ))}
          </Table.Body>
        </Table.Root>
+       </Table.ScrollArea>
       </Stack>
 
       <PaginationRoot
@@ -56,7 +58,7 @@ export default function BaseChannelTable({count, items}) {
       >
         <HStack>
           <PaginationPrevTrigger />
-          <PaginationItems />
+          <PaginationPageText />
           <PaginationNextTrigger />
         </HStack>
       </PaginationRoot>
