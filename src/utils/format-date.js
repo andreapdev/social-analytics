@@ -1,5 +1,13 @@
-export function formatDateTime(isoDate) {
+export function formatDateTime(isoDate, format) {
   const date = new Date(isoDate);
+  if (format == "day-only") {
+    return date.toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+  }
+
   return date.toLocaleString('es-ES', {
     year: 'numeric',
     month: 'numeric',

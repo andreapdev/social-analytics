@@ -1,5 +1,5 @@
 import ImpressionsByChannel from "./charts/impressions-by-channel";
-import LikesByPost from "./charts/likes-by-post";
+import LikesByPost from "./charts/likes-by-day";
 import FollowersOverTime from "./charts/followers-over-time";
 import SharesByChannel from "./charts/shares-by-channel";
 import FilterMenu from "@/components/atomic/molecules/filter-menu";

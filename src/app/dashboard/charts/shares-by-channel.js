@@ -3,14 +3,10 @@ import Card from "@/components/atomic/atoms/card";
 import PolarAreaChart from "@/components/charts/polar-area-chart";
 
 async function setChartData(filterId) {
-  const posts = await fetchSocialMediaPosts();
-  console.log(filterId)
-
-  // Step 1: Filter posts based on the filterId
-  const filteredPosts = filterId? posts.filter(post => post.channelId == filterId) : posts;
+  const posts = await fetchSocialMediaPosts(filterId);
 
   // Step 2: Aggregate impressions by channelName and keep channelId
-  const sharesByChannel = filteredPosts.reduce((acc, item) => {
+  const sharesByChannel = posts.reduce((acc, item) => {
     const { channelId, channelName, shareNumber } = item;
     if (!acc[channelName]) {
       acc[channelName] = { channelId, totalShares: 0 };

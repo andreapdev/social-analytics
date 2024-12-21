@@ -2,12 +2,12 @@
 import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
 import BasePostTable from "@/components/tables/base-post-table";
 
-async function setTableData() {
-  return await fetchSocialMediaPosts();
+async function setTableData(filterId) {
+  return await fetchSocialMediaPosts(filterId);
 }
 
-export default async function PopulatedPostsTable() {
-  const items = await setTableData();
+export default async function PopulatedPostsTable({filterId}) {
+  const items = await setTableData(filterId);
   const count = await items.length;
 
   return (

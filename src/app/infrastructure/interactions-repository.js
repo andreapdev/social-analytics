@@ -1,7 +1,12 @@
-//TODO: class
-export async function fetchSocialMediaPosts() {
+export async function fetchSocialMediaPosts(filterId) {
+  const url = new URL('https://676151f16be7889dc3609aab.mockapi.io/api/social/post');
+
+  if (filterId.length) {
+    url.searchParams.append('channelId', filterId);
+  }
+  
   try {
-    const response = await fetch('https://676151f16be7889dc3609aab.mockapi.io/api/social/post', {
+    const response = await fetch(url, {
       method: 'GET',
     });
 
@@ -18,9 +23,15 @@ export async function fetchSocialMediaPosts() {
   }
 }
 
-export async function fetchSocialMediaChannels() {
+export async function fetchSocialMediaChannels(filterId) {
+  const url = new URL('https://676151f16be7889dc3609aab.mockapi.io/api/social/channel');
+
+  if (filterId.length) {
+    url.searchParams.append('channelId', filterId);
+  }
+
   try {
-    const response = await fetch('https://676151f16be7889dc3609aab.mockapi.io/api/social/channel', {
+    const response = await fetch(url, {
       method: 'GET',
     });
 

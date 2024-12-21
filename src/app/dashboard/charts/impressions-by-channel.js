@@ -3,13 +3,10 @@ import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-reposit
 import Card from "@/components/atomic/atoms/card";
 
 async function setChartData(filterId) {
-  const posts = await fetchSocialMediaPosts();
+  const posts = await fetchSocialMediaPosts(filterId);
 
-  // Step 1: Filter posts based on the filterId
-    const filteredPosts = filterId? posts.filter(post => post.channelId == filterId) : posts;
-
-  // Step 2: Aggregate impressions by channelName and keep channelId
-  const impressionsByChannel = filteredPosts.reduce((acc, item) => {
+  // Step 1: Aggregate impressions by channelName and keep channelId
+  const impressionsByChannel = posts.reduce((acc, item) => {
     const { channelId, channelName, impressionNumber } = item;
     if (!acc[channelName]) {
       acc[channelName] = { channelId, totalImpressions: 0 };
@@ -18,7 +15,7 @@ async function setChartData(filterId) {
     return acc;
   }, {});
 
-  // Step 3: Convert the object into an array and sort by channelId
+  // Step 2: Convert the object into an array and sort by channelId
   const sortedImpressions = Object.entries(impressionsByChannel)
     .map(([channelName, { channelId, totalImpressions }]) => ({
       channelId,

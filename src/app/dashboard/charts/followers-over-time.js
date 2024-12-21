@@ -1,50 +1,77 @@
 import BarChart from "@/components/charts/bar-chart";
 import { fetchSocialMediaChannels } from "@/app/infrastructure/interactions-repository";
-import { formatDateTime } from "@/utils/format-date";
 import Card from "@/components/atomic/atoms/card";
+import { formatDateTime } from "@/utils/format-date";
 
-//TODO: make mixed if unfiltered - one channel if filtered
-async function setChartData( channelId ) {
-  const channels = await fetchSocialMediaChannels();
-  const followerDetails = getFollowersForChannel(channelId);  
+async function setChartData(filterId) {
+  const posts = await fetchSocialMediaChannels(filterId);
 
-  function getFollowersForChannel(channelId) {
-    return channels
-      .filter(channel => channel.channelId === channelId) // Filter by channelId
-      .map(channel => ({
-        id: channel.id,
-        followerNumber: Number(channel.followerNumber),
-        createdAt: formatDateTime(channel.createdAt)
-      })); // Extract id, likeNumber, and createdAt
-  }
+  // Step 1: Group followers by day and channel, keeping only the last measurement
+  const followersByDay = posts.reduce((acc, item) => {
+    const { channelId, createdAt, channelName, followerNumber } = item;
+    const formattedDate = formatDateTime(createdAt, "day-only");
 
-  const data = {
-    labels: followerDetails.map(detail => detail.createdAt),
-    datasets: [
-      {
-        label: 'Followers',
-        data: followerDetails.map(detail => detail.followerNumber),
-        tension: 0.1,
-      },
-    ],
-  };
+    if (!acc[formattedDate]) {
+      acc[formattedDate] = {};
+    }
 
-  return data;
-}
+    // Check if the channel exists for the date or if the current createdAt is later
+    if (
+      !acc[formattedDate][channelId] ||
+      new Date(createdAt) > new Date(acc[formattedDate][channelId].createdAt)
+    ) {
+      acc[formattedDate][channelId] = {
+        channelName,
+        totalFollowers: Number(followerNumber), // Use the latest followerNumber
+        createdAt // Keep createdAt to compare timestamps
+      };
+    }
 
-async function getChannelName( channelId ) {
-  const channels = await fetchSocialMediaChannels();
-  const channel = channels.find((channel) => channel.channelId === channelId);
-  return channel ? channel.channelName : "Channel not found";
+      return acc;
+    }, {});
+    
+    // Step 2: Prepare labels (unique dates sorted chronologically)
+    const labels = Object.keys(followersByDay)
+    .sort((a, b) => new Date(a) - new Date(b));
+  
+    // Step 3: Prepare datasets for each channel
+    const channelMap = {}; // To group data by channel
+    labels.forEach(date => {
+      const channelsOnDate = followersByDay[date];
+      Object.entries(channelsOnDate).forEach(([channelId, { channelName, totalFollowers }]) => {
+        if (!channelMap[channelId]) {
+          channelMap[channelId] = { label: channelName, data: [] };
+        }
+        channelMap[channelId].data.push(totalFollowers);
+      });
+  
+      // Fill in missing dates with 0 for channels without data
+      Object.keys(channelMap).forEach(id => {
+        if (!channelsOnDate[id]) {
+          channelMap[id].data.push(0);
+        }
+      });
+    });
+  
+    // Step 4: Format data for the chart
+    const datasets = Object.values(channelMap).map(channel => ({
+      ...channel,
+      fill: false,
+      tension: 0.1,
+    }));
+  
+    return {
+      labels,
+      datasets,
+    };
 }
 
 export default async function FollowersOverTime({channelId, className}) {
   const data = await setChartData(channelId);
-  const channelName = await getChannelName(channelId);
 
   return (
     <Card extraClass={className}>
-      <h3>{channelName} follower number</h3>
+      <h3>Followers over time</h3>
       <BarChart data={data}/>
     </Card>
   );

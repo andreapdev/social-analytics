@@ -27,7 +27,7 @@ export default function FilterMenu() {
     <div className="fixed bottom-5 right-5">
     <MenuRoot onSelect={(e) => {handleFilter(e.value)}}>
       <MenuTrigger asChild>
-        <div className="p-1 bg-secondary text-white rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-20 h-20">
+        <div className="p-1 bg-secondary text-white rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-20 h-20 cursor-pointer">
           <i className="material-symbols-outlined text-3xl">filter_alt</i>
           <div className="text-xs">Filter</div>
         </div>
@@ -35,10 +35,10 @@ export default function FilterMenu() {
 
       <MenuContent>
         <MenuItem value="1">
-          Show Instagram
+          Instagram
         </MenuItem>
         <MenuItem value="2">
-          Show X
+          X
         </MenuItem>
         <MenuItem value="3">
           Tiktok
