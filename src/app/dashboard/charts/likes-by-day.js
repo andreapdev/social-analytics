@@ -1,11 +1,8 @@
 import BaseChart from "@/components/atomic/organisms/base-chart";
-import { fetchSocialMediaPosts, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 import { formatDateTime } from "@/utils/format-date";
 
-async function setChartData(filterId) {
-  const posts = await fetchSocialMediaPosts(filterId);
-
+async function setChartData(posts, channelInfo) {
   // Group likes by day and channelId
   const likesByDay = posts.reduce((acc, item) => {
     const { channelId, createdAt, likeNumber } = item;
@@ -34,9 +31,9 @@ async function setChartData(filterId) {
     Object.entries(channelsOnDate).forEach(([channelId, { totalLikes }]) => {
       if (!channelMap[channelId]) {
         channelMap[channelId] = {
-          label: getChannelInfo()[channelId]?.name || "Unknown",
+          label: channelInfo[channelId]?.name || "Unknown",
           data: [],
-          borderColor: getChannelInfo()[channelId]?.color || "#CCCCCC",
+          borderColor: channelInfo[channelId]?.color || "#CCCCCC",
         };
       }
       
@@ -64,8 +61,8 @@ async function setChartData(filterId) {
   };
 }
 
-export default async function LikesByDay({ channelId, className }) {
-  const data = await setChartData(channelId);
+export default async function LikesByDay({ posts, channelInfo, className }) {
+  const data = await setChartData(posts, channelInfo);
 
   return (
     <Card extraClass={className}>

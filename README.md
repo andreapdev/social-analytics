@@ -23,3 +23,26 @@ Charts are shown using [ChartJS](https://www.chartjs.org/docs/latest/)
 ## Data
 
 [MockAPI](https://mockapi.io/projects) is used to get the data used in the charts and tables
+
+## Project structure
+```
+src/
+├── app/
+│   ├── dashboard/          dashboard page
+│   ├── infrastructure/     API fetch
+│   ├── tables/             tables page
+│   ├── ui/                 styles
+│   ├── favicon.ico
+│   ├── globals.css         global styles
+│   ├── layout.js           shared layout for all pages
+│   ├── page.js             homepage
+├── components/
+│   ├── atomic/             custom components separated by complexity
+│   │   ├── atoms/
+│   │   ├── molecules/
+│   │   ├── organisms/
+│   ├── chakra-ui/          chakra ui components
+│   ├── tables/             use of chakra ui tables
+├── utils/                  reusable small functions (animation, date formatting)
+
+```

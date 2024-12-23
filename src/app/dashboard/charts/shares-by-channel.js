@@ -1,10 +1,7 @@
-import { fetchSocialMediaPosts, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 import BaseChart from "@/components/atomic/organisms/base-chart";
 
-async function setChartData(filterId) {
-  const posts = await fetchSocialMediaPosts(filterId);
-
+async function setChartData(posts, channelInfo) {
   // Aggregate shares by channelId
   const sharesByChannel = posts.reduce((acc, item) => {
     const { channelId, shareNumber } = item;
@@ -20,8 +17,8 @@ async function setChartData(filterId) {
     .map(([channelId, { totalShares }]) => ({
       channelId: Number(channelId),
       totalShares,
-      channelName: getChannelInfo()[channelId]?.name || "Unknown",
-      color: getChannelInfo()[channelId]?.color || "#CCCCCC"
+      channelName: channelInfo[channelId]?.name || "Unknown",
+      color: channelInfo[channelId]?.color || "#CCCCCC"
     }))
     .sort((a, b) => a.channelId - b.channelId);
 
@@ -39,8 +36,8 @@ async function setChartData(filterId) {
   return data;
 }
 
-export default async function SharesByChannel({ className, channelId }) {
-  const data = await setChartData(channelId);
+export default async function SharesByChannel({ className, posts, channelInfo }) {
+  const data = await setChartData(posts, channelInfo);
 
   return (
     <Card extraClass={className}>

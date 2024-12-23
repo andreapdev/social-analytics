@@ -1,10 +1,7 @@
 import BaseChart from "@/components/atomic/organisms/base-chart";
-import { fetchSocialMediaPosts, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 
-async function setChartData(filterId) {
-  const posts = await fetchSocialMediaPosts(filterId);
-
+async function setChartData(posts, channelInfo) {
   // Aggregate impressions by channelId
   const impressionsByChannel = posts.reduce((acc, item) => {
     const { channelId, impressionNumber } = item;
@@ -20,8 +17,8 @@ async function setChartData(filterId) {
   const sortedImpressions = Object.entries(impressionsByChannel)
     .map(([channelId, { totalImpressions }]) => ({
       channelId: Number(channelId),
-      channelName: getChannelInfo()[channelId]?.name || "Unknown",
-      color: getChannelInfo()[channelId]?.color || "#CCCCCC",
+      channelName: channelInfo[channelId]?.name || "Unknown",
+      color: channelInfo[channelId]?.color || "#CCCCCC",
       totalImpressions,
     }))
     .sort((a, b) => a.channelId - b.channelId);
@@ -40,8 +37,8 @@ async function setChartData(filterId) {
   return data;
 }
 
-export default async function ImpressionsByChannel({ className, channelId }) {
-  const data = await setChartData(channelId);
+export default async function ImpressionsByChannel({ className, posts, channelInfo }) {
+  const data = await setChartData(posts, channelInfo);
 
   return (
     <Card extraClass={className}>

@@ -1,13 +1,10 @@
 import BaseChart from "@/components/atomic/organisms/base-chart";
-import { fetchSocialMediaChannels, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 import { formatDateTime } from "@/utils/format-date";
 
-async function setChartData(filterId) {
-  const posts = await fetchSocialMediaChannels(filterId);
-
+async function setChartData(channels, channelInfo) {
   // Group followers by day and channel, keeping only the last measurement
-  const followersByDay = posts.reduce((acc, item) => {
+  const followersByDay = channels.reduce((acc, item) => {
     const { channelId, createdAt, channelName, followerNumber } = item;
     const formattedDate = formatDateTime(createdAt, "day-only");
 
@@ -57,8 +54,8 @@ async function setChartData(filterId) {
     // Format data for the chart
     const datasets = Object.entries(channelMap).map(([channelId, channel]) => ({
       ...channel,
-      backgroundColor: getChannelInfo()[channelId]?.color,
-      label: getChannelInfo()[channelId]?.name,
+      backgroundColor: channelInfo[channelId]?.color,
+      label: channelInfo[channelId]?.name,
       fill: false,
       tension: 0.1,
     }));
@@ -69,8 +66,8 @@ async function setChartData(filterId) {
     };
 }
 
-export default async function FollowersOverTime({channelId, className}) {
-  const data = await setChartData(channelId);
+export default async function FollowersOverTime({channels, channelInfo, className}) {
+  const data = await setChartData(channels, channelInfo);
 
   return (
     <Card extraClass={className}>
