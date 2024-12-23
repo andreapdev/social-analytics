@@ -47,9 +47,13 @@ src/
 
 ```
 
-## Screenshots
+## Process
+
+Branding: https://camaleonicanalytics.com/
 
 ### Wireframe
+
+Figma: https://www.figma.com/design/FtbL8COgWGnWhe2KdWP2va/Social-Media-Analytics?node-id=5-2&t=IEsSBSOGJbxMRVs8-1
 
 <img width="702" alt="image" src="https://github.com/user-attachments/assets/435de24a-972f-429c-ac76-d416214e494a" />
 
