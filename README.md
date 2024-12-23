@@ -46,3 +46,26 @@ src/
 ├── utils/                  reusable small functions (animation, date formatting)
 
 ```
+
+## Screenshots
+
+### Wireframe
+
+<img width="702" alt="image" src="https://github.com/user-attachments/assets/435de24a-972f-429c-ac76-d416214e494a" />
+
+### End result
+
+#### Homepage
+
+<img width="201" alt="image" src="https://github.com/user-attachments/assets/d89ab387-105e-4f66-a1b8-93c756eaba21" />
+<img width="200" alt="image" src="https://github.com/user-attachments/assets/7a9478ca-2f28-4ac6-b68d-8e05cbd2945a" />
+
+#### Dashboard
+<img width="198" alt="image" src="https://github.com/user-attachments/assets/0fc266ef-3f3c-4281-be88-bd7da31629f9" />
+<img width="202" alt="image" src="https://github.com/user-attachments/assets/d1d9d5cd-86cc-4aa4-9c7e-8b1aa91363b8" />
+
+#### Tables
+<img width="198" alt="image" src="https://github.com/user-attachments/assets/b903114d-74c5-4303-8852-2254bb7b6146" />
+<img width="202" alt="image" src="https://github.com/user-attachments/assets/9a317e97-76f1-4bdd-9498-b5331701015b" />
+
+
