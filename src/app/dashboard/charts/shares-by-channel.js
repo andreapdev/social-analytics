@@ -1,48 +1,51 @@
-import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
+import { fetchSocialMediaPosts, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
-import PolarAreaChart from "@/components/charts/polar-area-chart";
+import BaseChart from "@/components/atomic/organisms/base-chart";
 
 async function setChartData(filterId) {
   const posts = await fetchSocialMediaPosts(filterId);
 
-  // Step 2: Aggregate impressions by channelName and keep channelId
+  // Aggregate shares by channelId
   const sharesByChannel = posts.reduce((acc, item) => {
-    const { channelId, channelName, shareNumber } = item;
-    if (!acc[channelName]) {
-      acc[channelName] = { channelId, totalShares: 0 };
+    const { channelId, shareNumber } = item;
+    if (!acc[channelId]) {
+      acc[channelId] = { totalShares: 0 };
     }
-    acc[channelName].totalShares += Number(shareNumber);
+    acc[channelId].totalShares += Number(shareNumber);
     return acc;
   }, {});
 
-  // Step 3: Convert the object into an array and sort by channelId
+  // Convert aggregated shares into sorted array
   const sortedShares = Object.entries(sharesByChannel)
-    .map(([channelName, { channelId, totalShares }]) => ({
-      channelId,
-      channelName,
-      totalShares
+    .map(([channelId, { totalShares }]) => ({
+      channelId: Number(channelId),
+      totalShares,
+      channelName: getChannelInfo()[channelId]?.name || "Unknown",
+      color: getChannelInfo()[channelId]?.color || "#CCCCCC"
     }))
     .sort((a, b) => a.channelId - b.channelId);
 
+  // Format data for the chart
   const data = {
     labels: sortedShares.map(post => post.channelName),
     datasets: [{
-      label: 'Shares',
+      label: "Shares",
       data: sortedShares.map(post => post.totalShares),
-      hoverOffset: 4
-    }]
+      hoverOffset: 4,
+      backgroundColor: sortedShares.map(post => post.color),
+    }],
   };
 
   return data;
 }
 
-export default async function SharesByChannel({className, channelId}) {
+export default async function SharesByChannel({ className, channelId }) {
   const data = await setChartData(channelId);
 
   return (
     <Card extraClass={className}>
       <h3>Shares by channel</h3>
-      <PolarAreaChart data={data}/> 
+      <BaseChart data={data} type="PolarArea" />
     </Card>
   );
 }

@@ -20,7 +20,7 @@ const NavbarItem = function NavbarItem({ url, text, icon }) {
 
   return (
     <Link href={url} 
-      className={`p-2.5 rounded-full hover:bg-secondary flex flex-col items-center w-16 lg:w-32 ${extraClassName}`}>
+      className={`p-2 flex flex-col items-center hover:border-b ${extraClassName}`}>
       <i className='material-symbols-outlined'>{icon}</i>
       {text}
     </Link>

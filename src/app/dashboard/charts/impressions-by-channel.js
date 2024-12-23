@@ -1,49 +1,52 @@
-import DoughnutChart from "@/components/charts/doughnut-chart";
-import { fetchSocialMediaPosts } from "@/app/infrastructure/interactions-repository";
+import BaseChart from "@/components/atomic/organisms/base-chart";
+import { fetchSocialMediaPosts, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 
 async function setChartData(filterId) {
   const posts = await fetchSocialMediaPosts(filterId);
 
-  // Step 1: Aggregate impressions by channelName and keep channelId
+  // Aggregate impressions by channelId
   const impressionsByChannel = posts.reduce((acc, item) => {
-    const { channelId, channelName, impressionNumber } = item;
-    if (!acc[channelName]) {
-      acc[channelName] = { channelId, totalImpressions: 0 };
+    const { channelId, impressionNumber } = item;
+
+    if (!acc[channelId]) {
+      acc[channelId] = { totalImpressions: 0 };
     }
-    acc[channelName].totalImpressions += Number(impressionNumber);
+    acc[channelId].totalImpressions += Number(impressionNumber);
     return acc;
   }, {});
 
-  // Step 2: Convert the object into an array and sort by channelId
+  // Convert the object into an array and sort by channelId
   const sortedImpressions = Object.entries(impressionsByChannel)
-    .map(([channelName, { channelId, totalImpressions }]) => ({
-      channelId,
-      channelName,
-      totalImpressions
+    .map(([channelId, { totalImpressions }]) => ({
+      channelId: Number(channelId),
+      channelName: getChannelInfo()[channelId]?.name || "Unknown",
+      color: getChannelInfo()[channelId]?.color || "#CCCCCC",
+      totalImpressions,
     }))
     .sort((a, b) => a.channelId - b.channelId);
 
-  // Step 4: Prepare the chart data
+  // Prepare the chart data
   const data = {
-    labels: sortedImpressions.map(post => post.channelName),
+    labels: sortedImpressions.map(({ channelName }) => channelName),
     datasets: [{
-      label: 'Impressions',
-      data: sortedImpressions.map(post => post.totalImpressions),
-      hoverOffset: 4
-    }]
+      label: "Impressions",
+      data: sortedImpressions.map(({ totalImpressions }) => totalImpressions),
+      hoverOffset: 4,
+      backgroundColor: sortedImpressions.map(({ color }) => color),
+    }],
   };
 
   return data;
 }
 
-export default async function ImpressionsByChannel({className, channelId}) {
+export default async function ImpressionsByChannel({ className, channelId }) {
   const data = await setChartData(channelId);
 
   return (
     <Card extraClass={className}>
       <h3>Impressions by channel</h3>
-      <DoughnutChart data={data}/>
+      <BaseChart data={data} type="Doughnut" />
     </Card>
   );
 }

@@ -13,7 +13,7 @@ import { formatDateTime } from "@/utils/format-date"
 
 export default function BaseChannelTable({count, items}) {
   const [page, setPage] = useState(1)
-  const pageSize = 5
+  const pageSize = 10
 
 
   const startRange = (page - 1) * pageSize
@@ -22,12 +22,12 @@ export default function BaseChannelTable({count, items}) {
   const visibleItems = items.slice(startRange, endRange)
 
   return (
-    <Card>
+    <Card extraClass="p-3 lg:p-10">
     <Stack gap="4">
       <Stack>
       <Heading size="xl">Follower overview</Heading>
-      <Table.ScrollArea borderWidth="1px" maxW="xl">
-       <Table.Root size="sm" variant="outline" striped>
+      <Table.ScrollArea borderWidth="0" maxW="xl" className="rounded-md">
+       <Table.Root size="md" interactive>
          <Table.Header>
            <Table.Row>
              <Table.ColumnHeader>ID</Table.ColumnHeader>

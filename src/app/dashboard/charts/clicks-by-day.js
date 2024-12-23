@@ -6,9 +6,9 @@ import { formatDateTime } from "@/utils/format-date";
 async function setChartData(filterId) {
   const posts = await fetchSocialMediaPosts(filterId);
 
-  // Group likes by day and channelId
-  const likesByDay = posts.reduce((acc, item) => {
-    const { channelId, createdAt, likeNumber } = item;
+  // Group clicks by day and channelId
+  const clicksByDay = posts.reduce((acc, item) => {
+    const { channelId, createdAt, clickNumber } = item;
     const formattedDate = formatDateTime(createdAt, "day-only");
 
     if (!acc[formattedDate]) {
@@ -16,22 +16,22 @@ async function setChartData(filterId) {
     }
 
     if (!acc[formattedDate][channelId]) {
-      acc[formattedDate][channelId] = { totalLikes: 0 };
+      acc[formattedDate][channelId] = { totalClicks: 0 };
     }
 
-    acc[formattedDate][channelId].totalLikes += Number(likeNumber);
+    acc[formattedDate][channelId].totalClicks += Number(clickNumber);
     return acc;
   }, {});
 
   // Prepare labels (unique dates sorted chronologically)
-  const labels = Object.keys(likesByDay).sort((a, b) => new Date(a) - new Date(b));
+  const labels = Object.keys(clicksByDay).sort((a, b) => new Date(a) - new Date(b));
 
   // Prepare datasets for each channel
   const channelMap = {}; // To group data by channel
   labels.forEach(date => {
-    const channelsOnDate = likesByDay[date];
+    const channelsOnDate = clicksByDay[date];
 
-    Object.entries(channelsOnDate).forEach(([channelId, { totalLikes }]) => {
+    Object.entries(channelsOnDate).forEach(([channelId, { totalClicks }]) => {
       if (!channelMap[channelId]) {
         channelMap[channelId] = {
           label: getChannelInfo()[channelId]?.name || "Unknown",
@@ -40,7 +40,7 @@ async function setChartData(filterId) {
         };
       }
       
-      channelMap[channelId].data.push(totalLikes);
+      channelMap[channelId].data.push(totalClicks);
     });
 
     // Fill in missing dates with 0 for channels without data
@@ -64,12 +64,12 @@ async function setChartData(filterId) {
   };
 }
 
-export default async function LikesByDay({ channelId, className }) {
+export default async function ClicksByDay({ channelId, className }) {
   const data = await setChartData(channelId);
 
   return (
     <Card extraClass={className}>
-      <h3>Likes by day</h3>
+      <h3>Clicks by day</h3>
       <BaseChart data={data} type="Line" />
     </Card>
   );

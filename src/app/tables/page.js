@@ -8,7 +8,7 @@ export default async function Page(props) {
   const filterId = searchParams?.channel || '';
 
   return (
-    <div className="p-2.5">
+    <div className="p-5 flex flex-col gap-5">
       <PopulatedChannelsTable filterId={filterId}/>
       <PopulatedPostsTable filterId={filterId} />
       <FilterMenu />

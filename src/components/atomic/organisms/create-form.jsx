@@ -1,10 +1,14 @@
 "use client"
 import { Button, Fieldset, VStack, Input } from "@chakra-ui/react"
 import { Field } from "@/components/chakra-ui/field"
+import { addSocialMediaPost } from "@/app/infrastructure/interactions-repository"
+import { getChannelInfo } from "@/app/infrastructure/interactions-repository"
+
 import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/chakra-ui/native-select"
+
 import {
   DrawerBackdrop,
   DrawerCloseTrigger,
@@ -12,9 +16,6 @@ import {
   DrawerRoot,
   DrawerTrigger,
 } from "@/components/chakra-ui/drawer"
-
-import { addSocialMediaPost } from "@/app/infrastructure/interactions-repository"
-import { useState } from "react"
 
 const CreateForm = () => {
   function handleSubmit(event) {
@@ -39,18 +40,13 @@ const CreateForm = () => {
   function handleSelect(event) {
     const clickedName = event.target.value;
     const channelIdInput = document.querySelector('input[name=channelId]');
-    //TODO: improve magic numbers
-    const channelIdMap = {
-      Instagram: 1,
-      X: 2,
-      TikTok: 3,
-      Facebook: 4,
-      Youtube: 5,
-      LinkedIn: 6,
-    };
 
     if (channelIdInput) {
-      channelIdInput.value = channelIdMap[clickedName] || '';
+      const channelId = Object.keys(getChannelInfo()).find(
+        (id) => getChannelInfo()[id].name === clickedName
+      );
+  
+      channelIdInput.value = channelId || '';
     }
   }
 
@@ -69,41 +65,41 @@ const CreateForm = () => {
         <DrawerCloseTrigger />
         <form id="create-post" onSubmit={handleSubmit}>
           <Fieldset.Root size="lg" maxW="md">
-          <VStack spacing={4} className='bg-secondary p-10'>
+          <VStack spacing={4} className='bg-secondary p-10 min-h-screen'>
             <Fieldset.Legend>Create item</Fieldset.Legend>
 
             <Fieldset.Content>
               <Field orientation="horizontal" id="channelId" label="Channel" type="select" required>
                 <NativeSelectRoot onChange={handleSelect}>
-                  <NativeSelectField name="channelName" items={["Instagram", "X", "TikTok" , "Facebook", "Youtube", "LinkedIn",]} />
+                  <NativeSelectField className="p-2 bg-white/5" name="channelName" items={Object.values(getChannelInfo()).map(channel => channel.name)}  />
                 </NativeSelectRoot>
               </Field>
 
               <Input name="channelId" type="hidden" />
               <Field orientation="horizontal" required label="Impressions">
-                <Input name="impressionNumber" type="number" />
+                <Input name="impressionNumber" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Comments">
-                <Input name="commentNumber" type="number" />
+                <Input name="commentNumber" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Likes">
-                <Input name="likeNumber" type="number" />
+                <Input name="likeNumber" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Shares">
-                <Input name="shareNumber" type="number" />
+                <Input name="shareNumber" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Saved">
-                <Input name="saveNumber" type="number" />
+                <Input name="saveNumber" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Follower impact">
-                <Input name="followerImpact" type="number" />
+                <Input name="followerImpact" type="number" className="p-2 bg-white/5" />
               </Field>
               <Field orientation="horizontal" required label="Clicks">
-                <Input name="clickNumber" type="number" />
+                <Input name="clickNumber" type="number" className="p-2 bg-white/5" />
               </Field>
             </Fieldset.Content>
             
-            <Button colorScheme="grey" type="submit">
+            <Button type="submit" className="p-4 bg-white text-black shadow-md shadow-black hover:shadow-none hover:opacity-90 my-4">
               Submit
             </Button>
           </VStack>

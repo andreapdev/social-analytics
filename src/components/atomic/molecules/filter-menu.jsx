@@ -1,6 +1,7 @@
 "use client"
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { getChannelInfo } from '@/app/infrastructure/interactions-repository';
 import {
   MenuContent,
   MenuItem,
@@ -34,24 +35,11 @@ export default function FilterMenu() {
       </MenuTrigger>
 
       <MenuContent>
-        <MenuItem value="1">
-          Instagram
-        </MenuItem>
-        <MenuItem value="2">
-          X
-        </MenuItem>
-        <MenuItem value="3">
-          Tiktok
-        </MenuItem>
-        <MenuItem value="4">
-          Facebook
-        </MenuItem>
-        <MenuItem value="5">
-          Youtube
-        </MenuItem>
-        <MenuItem value="6">
-          LinkedIn
-        </MenuItem>
+        {Object.entries(getChannelInfo()).map(([id, { name }]) => (
+          <MenuItem key={id} value={id}>
+            {name}
+          </MenuItem>
+        ))}
         <MenuItem value="0">
           Restore
         </MenuItem>

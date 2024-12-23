@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         className={`${barlow.className} antialiased`}
       >
         <Provider>
-          <div className='relative bg-gradient-to-b from-secondary to-[#005e63]'>
+          <div className='relative bg-gradient-to-b from-secondary to-[#005e63] w-screen max-w-screen-2xl mx-auto'>
             <BackgroundParticles />
             <Navbar />
             <main className='min-h-screen'>

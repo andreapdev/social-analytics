@@ -1,12 +1,12 @@
-import BarChart from "@/components/charts/bar-chart";
-import { fetchSocialMediaChannels } from "@/app/infrastructure/interactions-repository";
+import BaseChart from "@/components/atomic/organisms/base-chart";
+import { fetchSocialMediaChannels, getChannelInfo } from "@/app/infrastructure/interactions-repository";
 import Card from "@/components/atomic/atoms/card";
 import { formatDateTime } from "@/utils/format-date";
 
 async function setChartData(filterId) {
   const posts = await fetchSocialMediaChannels(filterId);
 
-  // Step 1: Group followers by day and channel, keeping only the last measurement
+  // Group followers by day and channel, keeping only the last measurement
   const followersByDay = posts.reduce((acc, item) => {
     const { channelId, createdAt, channelName, followerNumber } = item;
     const formattedDate = formatDateTime(createdAt, "day-only");
@@ -30,11 +30,11 @@ async function setChartData(filterId) {
       return acc;
     }, {});
     
-    // Step 2: Prepare labels (unique dates sorted chronologically)
+    // Prepare labels (unique dates sorted chronologically)
     const labels = Object.keys(followersByDay)
     .sort((a, b) => new Date(a) - new Date(b));
   
-    // Step 3: Prepare datasets for each channel
+    // Prepare datasets for each channel
     const channelMap = {}; // To group data by channel
     labels.forEach(date => {
       const channelsOnDate = followersByDay[date];
@@ -53,13 +53,16 @@ async function setChartData(filterId) {
       });
     });
   
-    // Step 4: Format data for the chart
-    const datasets = Object.values(channelMap).map(channel => ({
+
+    // Format data for the chart
+    const datasets = Object.entries(channelMap).map(([channelId, channel]) => ({
       ...channel,
+      backgroundColor: getChannelInfo()[channelId]?.color,
+      label: getChannelInfo()[channelId]?.name,
       fill: false,
       tension: 0.1,
     }));
-  
+
     return {
       labels,
       datasets,
@@ -72,7 +75,7 @@ export default async function FollowersOverTime({channelId, className}) {
   return (
     <Card extraClass={className}>
       <h3>Followers over time</h3>
-      <BarChart data={data}/>
+      <BaseChart data={data} type={"Bar"}/>
     </Card>
   );
 }
