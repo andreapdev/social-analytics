@@ -25,10 +25,10 @@ export default function FilterMenu() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5">
+    <div>
     <MenuRoot onSelect={(e) => {handleFilter(e.value)}}>
       <MenuTrigger asChild>
-        <div className="p-1 bg-secondary text-white rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-20 h-20 cursor-pointer">
+        <div className="p-1 bg-primary text-secondary rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-16 h-16 cursor-pointer">
           <i className="material-symbols-outlined text-3xl">filter_alt</i>
           <div className="text-xs">Filter</div>
         </div>

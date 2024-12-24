@@ -41,8 +41,8 @@ export async function addSocialMediaPost(data) {
       return false;
     }
 
-    const posts = await response.json();
-    return posts;
+    return response.ok;
+    
   } catch (error) {
     console.error('Fetch error:', error);
     return false;

@@ -23,7 +23,10 @@ export default async function Page(props) {
         <CommentsByDay posts={posts} channelInfo={getChannelInfo()} className="p-3 lg:p-10 col-start-1" />
         <SharesByChannel posts={posts} channelInfo={getChannelInfo()} className="p-3 lg:p-10 lg:row-span-2 lg:row-start-3 lg:col-start-2" />
       </div>
-      <FilterMenu />
+
+      <div className="sticky bottom-5 flex justify-end">
+        <FilterMenu />
+      </div>
     </div>
   )
 }

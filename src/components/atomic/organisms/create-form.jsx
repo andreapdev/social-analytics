@@ -1,5 +1,6 @@
 "use client"
-import { Button, Fieldset, VStack, Input } from "@chakra-ui/react"
+import { useState } from "react";
+import { Button, Fieldset, VStack, Input, Text } from "@chakra-ui/react"
 import { Field } from "@/components/chakra-ui/field"
 import { addSocialMediaPost } from "@/app/infrastructure/interactions-repository"
 import { getChannelInfo } from "@/app/infrastructure/interactions-repository"
@@ -18,7 +19,10 @@ import {
 } from "@/components/chakra-ui/drawer"
 
 const CreateForm = () => {
-  function handleSubmit(event) {
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(event) {
     event.preventDefault();
   
     const formData = new FormData(event.target);
@@ -34,7 +38,16 @@ const CreateForm = () => {
       followerImpact: parseInt(formData.get("followerImpact"), 10),
       clickNumber: parseInt(formData.get("clickNumber"), 10),
     };
-    addSocialMediaPost(inputData);
+    const isResponseOk = await addSocialMediaPost(inputData);
+    
+    if (isResponseOk) {
+      setSuccessMessage("Item successfully created!");
+      setErrorMessage("");
+      event.target.reset();
+    } else {
+      setErrorMessage("Something went wrong. Please try again.");
+      setSuccessMessage("");
+    }
   }
 
   function handleSelect(event) {
@@ -49,19 +62,18 @@ const CreateForm = () => {
       channelIdInput.value = channelId || '';
     }
   }
-
   return (<>
     <DrawerRoot placement="left">
       <DrawerBackdrop />
 
       <DrawerTrigger asChild>
-          <div className="fixed bottom-5 left-5 p-1 bg-white text-secondary rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-20 h-20 cursor-pointer">
+          <div className="p-1 bg-white text-secondary rounded-full flex flex-col justify-center items-center shadow-lg shadow-slate-900 w-16 h-16 cursor-pointer">
             <i className="material-symbols-outlined text-3xl">add</i>
             <div className="text-xs">Add</div>
           </div>
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent className="overflow-auto">
         <DrawerCloseTrigger />
         <form id="create-post" onSubmit={handleSubmit}>
           <Fieldset.Root size="lg" maxW="md">
@@ -98,8 +110,20 @@ const CreateForm = () => {
                 <Input name="clickNumber" type="number" className="p-2 bg-white/5" />
               </Field>
             </Fieldset.Content>
+
+            {successMessage && (
+              <Text className="font-bold text-green-500">
+                {successMessage}
+              </Text>
+            )}
+
+            {errorMessage && (
+              <Text className="font-bold text-red-600">
+                {errorMessage}
+              </Text>
+            )}
             
-            <Button type="submit" className="p-4 bg-white text-black shadow-md shadow-black hover:shadow-none hover:opacity-90 my-4">
+            <Button type="submit" className="p-4 bg-white text-black shadow-md shadow-black hover:shadow-none hover:opacity-60 my-4">
               Submit
             </Button>
           </VStack>

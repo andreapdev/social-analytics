@@ -26,9 +26,9 @@ export default function BaseChannelTable({count, items}) {
     <Stack gap="4">
       <Stack>
       <Heading size="xl">Follower overview</Heading>
-      <Table.ScrollArea borderWidth="0" maxW="xl" className="rounded-md">
+      <Table.ScrollArea borderWidth="0" className="w-screen rounded-md">
        <Table.Root size="md" interactive>
-         <Table.Header>
+         <Table.Header className="border-secondary border-solid border-b-2">
            <Table.Row>
              <Table.ColumnHeader>ID</Table.ColumnHeader>
              <Table.ColumnHeader>Channel</Table.ColumnHeader>

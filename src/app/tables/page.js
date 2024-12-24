@@ -15,8 +15,10 @@ export default async function Page(props) {
     <div className="p-5 flex flex-col gap-5">
       <PopulatedChannelsTable channels={channels}/>
       <PopulatedPostsTable posts={posts} />
-      <FilterMenu />
-      <CreateForm />
+      <div className="sticky bottom-5 flex justify-between gap-5">
+        <CreateForm />
+        <FilterMenu />
+      </div>
     </div>
   )
 }

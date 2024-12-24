@@ -28,7 +28,7 @@ export default function BasePostTable({count, items}) {
       <Heading size="xl">Posts overview</Heading>
       <Table.ScrollArea borderWidth="0" className="w-screen rounded-md">
        <Table.Root size="md" interactive>
-         <Table.Header>
+         <Table.Header className="border-secondary border-solid border-b-2">
            <Table.Row>
              <Table.ColumnHeader>ID</Table.ColumnHeader>
              <Table.ColumnHeader>Channel</Table.ColumnHeader>
