@@ -1,6 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project
+A simple social analytics project with three pages:
+- Homepage: introduction to the project
+- Dashboard: with different charts to showcase data
+- Tables: containing all the data used
+  
+First project using: NextJS, ChartJS, ChakraUI
+
+About 30h over 1 week
 
 ## Getting Started
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 Run using:
 
@@ -22,7 +31,8 @@ Charts are shown using [ChartJS](https://www.chartjs.org/docs/latest/)
 
 ## Data
 
-[MockAPI](https://mockapi.io/projects) is used to get the data used in the charts and tables
+[MockAPI](https://mockapi.io/projects) is used to get the data used in the charts and tables.
+Specifically this endpoint is used: (https://mockapi.io/projects/676151f16be7889dc3609aac)
 
 ## Project structure
 ```
@@ -47,7 +57,7 @@ src/
 
 ```
 
-## Process
+## Visual process
 
 Branding: https://camaleonicanalytics.com/
 
@@ -72,4 +82,9 @@ Figma: https://www.figma.com/design/FtbL8COgWGnWhe2KdWP2va/Social-Media-Analytic
 <img width="198" alt="image" src="https://github.com/user-attachments/assets/b903114d-74c5-4303-8852-2254bb7b6146" />
 <img width="202" alt="image" src="https://github.com/user-attachments/assets/9a317e97-76f1-4bdd-9498-b5331701015b" />
 
+## Next steps
+- Improve data quality and quantity
+- Add more relevant filters to visualize the data
+- Make charts more responsive
+- Add possibility of data edition and deletion
 
